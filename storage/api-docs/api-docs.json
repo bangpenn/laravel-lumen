@@ -5,6 +5,352 @@
         "version": "0.1"
     },
     "paths": {
+        "/bobot-akademik/index": {
+            "get": {
+                "tags": [
+                    "Bobot Akademik"
+                ],
+                "summary": "Get all Bobot Akademik data.",
+                "operationId": "5306596060446038f15c8982a2483a00",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/bobot-akademik/createorupdate": {
+            "post": {
+                "tags": [
+                    "Bobot Akademik"
+                ],
+                "summary": "Create or update Bobot Akademik",
+                "description": "Create or update Bobot Akademik.",
+                "operationId": "8b14a1283da2a945e556f85ad36828e4",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "uuid": {
+                                        "title": "uuid",
+                                        "description": "UUID of bobot akademik (optional for update)",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "name": {
+                                        "title": "name",
+                                        "description": "Name of bobot akademik",
+                                        "type": "string",
+                                        "example": "Aspek A"
+                                    },
+                                    "bobot_persen": {
+                                        "title": "bobot_persen",
+                                        "description": "Percentage weight of bobot akademik",
+                                        "type": "number",
+                                        "example": 20.5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/bobot-akademik/{id}/delete": {
+            "delete": {
+                "tags": [
+                    "Bobot Akademik"
+                ],
+                "summary": "Delete bobot akademik",
+                "description": "Delete bobot akademik by UUID.",
+                "operationId": "6be9c1b7cf88eb0ccac9f8373b846899",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID of bobot akademik to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/jenis-aspek/index": {
+            "get": {
+                "tags": [
+                    "Jenis Aspek"
+                ],
+                "operationId": "21f8dfd93ce2c6bd433cc6cad71449bd",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/jenis-aspek/createorupdate": {
+            "post": {
+                "tags": [
+                    "Jenis Aspek"
+                ],
+                "summary": "Create or update jenis aspek",
+                "description": "Create or update jenis aspek.",
+                "operationId": "01fa05e8f7f99c715d527b8872a863c1",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "uuid": {
+                                        "title": "uuid",
+                                        "description": "UUID of jenis aspek (optional for update)",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "name": {
+                                        "title": "name",
+                                        "description": "Name of jenis aspek",
+                                        "type": "string",
+                                        "example": "Aspek A"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/jenis-aspek/{id}/delete": {
+            "delete": {
+                "tags": [
+                    "Jenis Aspek"
+                ],
+                "summary": "Delete jenis aspek",
+                "description": "Delete jenis aspek by UUID.",
+                "operationId": "7ce2d2157c77bc96415873eef8496559",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID of jenis aspek to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/nilai-akademik/index": {
+            "get": {
+                "tags": [
+                    "Nilai Akademik"
+                ],
+                "operationId": "96ec25bd29ff2fe98ed630380de01ccf",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/nilai-akademik/createorupdate": {
+            "post": {
+                "tags": [
+                    "Nilai Akademik"
+                ],
+                "summary": "Create or update nilai Akademik",
+                "description": "Create or update nilai Akademik.",
+                "operationId": "478fbaf5d259f39205a8105b68041b9f",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "uuid": {
+                                        "title": "uuid",
+                                        "description": "UUID of nilai akademik (optional for update)",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "name": {
+                                        "title": "name",
+                                        "description": "Name of nilai akademik",
+                                        "type": "string",
+                                        "example": "Aspek A"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/nilai-akademik/{id}/delete": {
+            "delete": {
+                "tags": [
+                    "Nilai Akademik"
+                ],
+                "summary": "Delete nilai akademik",
+                "description": "Delete nilai akademik by UUID.",
+                "operationId": "840bb3564dd1f2123edc14fafbde74f8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID of nilai akademik to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
         "/posts": {
             "get": {
                 "tags": [
@@ -304,6 +650,13 @@
     },
     "components": {
         "schemas": {
+            "BobotAkademik": {
+                "title": "BobotAkademik",
+                "description": "Bobot Akademik model",
+                "xml": {
+                    "name": "BobotAkademik"
+                }
+            },
             "Post": {
                 "required": [
                     "title",
@@ -329,6 +682,18 @@
         }
     },
     "tags": [
+        {
+            "name": "Bobot Akademik",
+            "description": "Bobot Akademik"
+        },
+        {
+            "name": "Jenis Aspek",
+            "description": "Jenis Aspek"
+        },
+        {
+            "name": "Nilai Akademik",
+            "description": "Nilai Akademik"
+        },
         {
             "name": "Posts",
             "description": "Posts"
