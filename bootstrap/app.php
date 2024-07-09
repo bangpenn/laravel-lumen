@@ -8,6 +8,22 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
+/**
+ * @OA\Info(
+ *     version="1.0.0",
+ *     title="MY API CRUD Documentation",
+ *     description="API documentation for Lumen application",
+ *     @OA\Contact(
+ *         email="your-email@example.com"
+ *     ),
+ *     @OA\License(
+ *         name="Apache 2.0",
+ *         url="http://www.apache.org/licenses/LICENSE-2.0.html"
+ *     )
+ * )
+ */
+
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -83,6 +99,17 @@ $app->middleware([
 // $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
+$app->configure('swagger-lume');
+
+$app->register(\SwaggerLume\ServiceProvider::class);
+
+$app->routeMiddleware([
+    'swagger' => \SwaggerLume\Http\Middleware\SwaggerLumeMiddleware::class,
+]);
+
+
+
+
 
 /*
 |--------------------------------------------------------------------------

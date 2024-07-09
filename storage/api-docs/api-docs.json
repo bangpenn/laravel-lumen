@@ -1,0 +1,337 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My First API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/posts": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Get list of posts",
+                "operationId": "bc35b0dccb591514504ae7025aa06cf5",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Post"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Create a new post",
+                "operationId": "9ccefc026f76d6c7d6e8c77fc480ac86",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "content"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Post Title"
+                                    },
+                                    "content": {
+                                        "type": "string",
+                                        "example": "Post Content"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Post created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/{id}": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Get a post by ID",
+                "operationId": "d99512970f542647fda93716e0a1d9bb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Post Tidak Ditemukan!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Update a post",
+                "operationId": "1ff0cadc31e4b79bde50ec8b5513dbdc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "content"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Updated Title"
+                                    },
+                                    "content": {
+                                        "type": "string",
+                                        "example": "Updated Content"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Post updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Post Tidak Ditemukan!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Delete a post",
+                "operationId": "d4fd127d9c73e609bb91f2ba3476fbd8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Post berhasil dihapus!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Post tidak ditemukan!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Post": {
+                "required": [
+                    "title",
+                    "content"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Post Title"
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "Post Content"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Posts",
+            "description": "Posts"
+        }
+    ]
+}
