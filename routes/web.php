@@ -25,21 +25,21 @@ $router->delete('/posts/{id}', 'PostsController@destroy');
 
 // Jenis-aspek
 Route::group(['prefix' => 'jenis-aspek'], function () {
-    Route::get('jenis-aspek', 'JenisAspekController@GetJenisAspek');
-    Route::post('jenis-aspek/createorupdate', 'JenisAspekController@CreateOrUpdateJenisAspek');
-    Route::delete('jenis-aspek/{id}', 'JenisAspekController@DestroyJenisAspek');
+    Route::get('/index', 'JenisAspekController@GetJenisAspek');
+    Route::post('/createorupdate', 'JenisAspekController@CreateOrUpdateJenisAspek');
+    Route::delete('/{id}/delete', 'JenisAspekController@DestroyJenisAspek');
 });
 
 // Bobot-akademik
 Route::group(['prefix' => 'bobot-akademik'], function () {
-    Route::get('bobot-akademik', 'BobotAkademikController@GetJenisAspek');
-    Route::post('bobot-akademik/createorupdate', 'BobotAkademikController@CreateOrUpdateBobotAkademik');
-    Route::delete('bobot-akademik/{id}', 'BobotAkademikController@DestroyBobotAkademik');
+    Route::get('/index', 'BobotAkademikController@GetBobotAkademik');
+    Route::post('/createorupdate', 'BobotAkademikController@CreateOrUpdateBobotAkademik');
+    Route::delete('/{id}/delete', 'BobotAkademikController@DestroyBobotAkademik');
 });
 
 // Nilai-akademik
 Route::group(['prefix' => 'nilai-akademik'], function () {
-    Route::get('nilai-akademik', 'NilaiAkademikController@GetNilaiAkademik');
-    Route::post('nilai-akademik/createorupdate', 'NilaiAkademikController@CreateOrUpdateNilaiAkademik');
-    Route::delete('nilai-akademik/{id}', 'NilaiAkademikController@DestroyNilaiAkademik');
+    Route::get('/index', 'NilaiAkademikController@GetNilaiAkademik');
+    Route::post('/createorupdate', 'NilaiAkademikController@CreateOrUpdateNilaiAkademik');
+    Route::delete('{id}/delete', 'NilaiAkademikController@DestroyNilaiAkademik');
 });

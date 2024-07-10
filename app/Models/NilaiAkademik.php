@@ -18,7 +18,7 @@ use Ramsey\Uuid\Uuid;
 class NilaiAkademik extends Model
 {
     protected $primaryKey = 'uuid';
-    protected $table = 'nilai_akademik';
+    protected $table = 'nilai_akademik_new';
     protected $guarded = [];
 
     static function GetNilaiAkademik()
@@ -26,18 +26,25 @@ class NilaiAkademik extends Model
         try {
             date_default_timezone_set("Asia/Bangkok");
             $response = NilaiAkademik::select(
-                'nilai_akademik.uuid AS key',
-                'student.uuid as student_id',
-                'course.uuid as course_id',
-                'nilai_akademik.semester',
-                'bobot.uuid as bobot_id',
-                'nilai_bobot'
+                'nilai_akademik_new.uuid AS key',
+                'student_key AS student_id',
+                'course_key AS course_id',
+                'nilai_akademik_new.semester',
+                'nilai_akademik_new.key_bobot AS bobot_id',
+                'nilai_akademik_new.nilai_bobot AS nilai_bobot'
             )
-            ->leftjoin('bobot_akademik_new', 'bobot_key', '=', 'nilai_akademik.uuid')
-            ->where('nilai_akademik.deleted_at', null)
-            ->where('nilai_akademik.status', null)
+            ->leftjoin('bobot_akademik_new', 'bobot_akademik_new.uuid', '=', 'nilai_akademik_new.key_bobot')
+            ->where('nilai_akademik_new.deleted_at', null)
             ->get();
+
+            \Log::info('Request received for GetNilaiAkademik');
+            \Log::info('Response data:', $response->toArray());
+
+            return $response;
         } catch (\Throwable $th) {
+
+            \Log::error('Error in GetNilaiAkademik', ['error' => $th->getMessage()]);
+
             throw $th;
         }
     }
@@ -58,18 +65,31 @@ class NilaiAkademik extends Model
                     ->first();
             }
 
+            // Untuk memasukkan key_bobot dari tabel bobot akademik
+            $key_bobot = $param->key_bobot;
+            if (!Uuid::isValid($key_bobot)) {
+                // Handle error: invalid UUID format
+                return Helper::responseFreeCustom(EC::HTTP_BAD_REQUEST, 'Format UUID tidak valid');
+            }
+
             if ($check_data == null) {
                 NilaiAkademik::create([
                     'uuid'              => $uuid,
-                    'nilai_akademik'    => $param->nilai_akademik,
+                    'student_key'       => $uuid,
+                    'course_key'        => $uuid,
                     'semester'          => $param->semester,
+                    'key_bobot'         => $key_bobot,
+                    'nilai_bobot'       => $param->nilai_bobot,
                     'created_by'        => Auth::guard('api')->user()->id,
                     'created_at'        => $datenow,
                 ]);
             } else {
                 NilaiAkademik::where('uuid', $param->uuid)->update([
-                    'nilai_akademik'    => $param->nilai_akademik,
+                    'student_key'       => $uuid,
+                    'course_key'        => $uuid,
                     'semester'          => $param->semester,
+                    'key_bobot'         => $uuid,
+                    'nilai_bobot'       => $param->nilai_bobot,
                     'created_by'        => Auth::guard('api')->user()->id,
                     'created_at'        => $datenow,
                 ]);

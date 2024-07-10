@@ -25,7 +25,7 @@ use Ramsey\Uuid\Uuid;
 class BobotAkademik extends Model
 {
     protected $primaryKey = 'uuid';
-    protected $table = 'bobot_akademik';
+    protected $table = 'bobot_akademik_new';
     protected $guarded = [];
 
     /**
@@ -38,11 +38,11 @@ class BobotAkademik extends Model
         try {
             date_default_timezone_set("Asia/Bangkok");
             $response = BobotAkademik::select(
-                'bobot_akademik.uuid as key',
-                'bobot_akademik.name',
-                'bobot_persen'
+                'bobot_akademik_new.uuid as key',
+                'bobot_akademik_new.nama as nama',
+                'bobot_akademik_new.persen_bobot as persen_bobot',
             )
-            ->where('bobot_akademik.deleted_at', null)
+            ->where('bobot_akademik_new.deleted_at', null)
             ->get();
 
             return $response;

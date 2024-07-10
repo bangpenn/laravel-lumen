@@ -39,21 +39,29 @@ class JenisAspek extends Model
 
     public static function CreateOrUpdateJenisAspek($param)
     {
+
+        \Log::info('CreateOrUpdateJenisAspek called', $param->all());
+
         try {
             date_default_timezone_set("Asia/Bangkok");
             $datenow = date('Y-m-d H:i:s');
             $uuid = Uuid::uuid4()->toString();
 
-            DB::beginTransaction();
+            $userId = Auth::guard('api')->user()->id;
+            \Log::info('Authenticated user ID', ['user_id' => $userId]);
 
             if ($param->uuid == null) {
+                \Log::info('Creating new JenisAspek', ['uuid' => $uuid]);
+
                 JenisAspek::create([
                     'uuid'          => $uuid,
                     'name'          => $param->name,
-                    'created_by'    => Auth::guard('api')->user()->id,
+                    'created_by'    => $userId,
                     'created_at'    => $datenow,
                 ]);
             } else {
+                \Log::info('Updating existing JenisAspek', ['uuid' => $param->uuid]);
+
                 JenisAspek::where('uuid', $param->uuid)->update([
                     'name'          => $param->name,
                     'created_by'    => Auth::guard('api')->user()->id,
@@ -61,12 +69,12 @@ class JenisAspek extends Model
                 ]);
             }
 
-            DB::commit();
-
             $data = Helper::responseData();
+            \Log::info('Response data', ['data' => $data]);
+
             return $data;
         } catch (\Throwable $th) {
-            DB::rollBack();
+            \Log::error('Error in CreateOrUpdateJenisAspek', ['error' => $th->getMessage()]);
             throw $th;
         }
     }
@@ -77,18 +85,18 @@ class JenisAspek extends Model
             date_default_timezone_set("Asia/Bangkok");
             $datenow = date('Y-m-d H:i:s');
 
-            DB::beginTransaction();
+            // DB::beginTransaction();
 
             $data = JenisAspek::where('uuid', $id)->update([
                 'deleted_by'    => Auth::guard('api')->user()->id,
                 'deleted_at'    => $datenow,
             ]);
 
-            DB::commit();
+            // DB::commit();
 
             return $data;
         } catch (\Throwable $th) {
-            DB::rollBack();
+            // DB::rollBack();
             throw $th;
         }
     }

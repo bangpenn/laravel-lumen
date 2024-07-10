@@ -33,11 +33,13 @@ class BobotAkademikController extends Controller
     public function GetBobotAkademik()
     {
         try {
-            $jenisAspeks = BobotAkademik::GetAllBobotAkademik();
+            $bobotAkademik = BobotAkademik::GetAllBobotAkademik();
 
-            return Helper::responseData($jenisAspeks);
+            return Helper::responseData($bobotAkademik);
         } catch (\Throwable $th) {
             return Helper::responseFreeCustom(EC::HTTP_INTERNAL_SERVER_ERROR, 'Internal Server Error');
+            throw $th;
+
         }
     }
 
@@ -84,6 +86,9 @@ class BobotAkademikController extends Controller
     public function CreateOrUpdateBobotAkademik(Request $request)
     {
         try {
+
+            \Log::info('Request received', $request->all());
+
             $required_params = [];
             if (!$request->name) $required_params[] = 'name';
             if (!$request->bobot_persen) $required_params[] = 'bobot_persen';
@@ -93,11 +98,20 @@ class BobotAkademikController extends Controller
                 return Helper::responseFreeCustom(EC::INSUF_PARAM, $message, array());
             }
 
+            \Log::info('Validation passed');
+
+
             $result = BobotAkademik::CreateOrUpdateBobotAkademik($request);
+
+            \Log::info('Bobot Akademik saved', ['result' => $result]);
+
 
             return Helper::responseData($result);
         } catch (\Throwable $th) {
+            \Log::error('Error occurred', ['error' => $th->getMessage()]);
+
             return Helper::responseFreeCustom(EC::HTTP_INTERNAL_SERVER_ERROR, 'Internal Server Error');
+            throw $th;
         }
     }
 
@@ -133,6 +147,7 @@ class BobotAkademikController extends Controller
             return Helper::responseData($result);
         } catch (\Throwable $th) {
             return Helper::responseFreeCustom(EC::HTTP_INTERNAL_SERVER_ERROR, 'Internal Server Error');
+            throw $th;
         }
     }
 }

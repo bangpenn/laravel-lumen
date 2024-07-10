@@ -44,9 +44,9 @@ class NilaiAkademikController extends Controller
     public function GetNilaiAkademik()
      {
          try {
-             $jenisAspeks = NilaiAkademik::GetNilaiAkademik();
+             $nilaiAkademik = NilaiAkademik::GetNilaiAkademik();
 
-             return Helper::responseData($jenisAspeks);
+             return Helper::responseData($nilaiAkademik);
          } catch (\Throwable $th) {
              return Helper::responseFreeCustom(EC::HTTP_INTERNAL_SERVER_ERROR, 'Internal Server Error');
              throw $th;
@@ -89,23 +89,28 @@ class NilaiAkademikController extends Controller
     public function CreateOrUpdateNilaiAkademik(Request $request)
     {
         try {
-            // $this->validate($request, [
-            //     'name' => 'required|string|max:255'
-            // ]);
-
-            // $param = (object) $request->only('uuid', 'name');
+           
+            \Log::info('Request received', $request->all());
             $required_params = [];
-            if (!$request->nilai_akademik) $required_params[] = 'nilai_akademik';
+            if (!$request->semester) $required_params[] = 'semester';
+            if (!$request->nilai_bobot) $required_params[] = 'nilai_bobot';
+            if (!$request->key_bobot) $required_params[] = 'key_bobot';
 
             if (is_countable($required_params) && count($required_params)) {
                 $message = "Parameter berikut harus diisi: " . implode(", ", $required_params);
                 return Helper::responseFreeCustom(EC::INSUF_PARAM, $message, array());
             }
 
+            \Log::info('Validation passed');
+
             $result = NilaiAkademik::CreateOrUpdateNilaiAkademik($request);
+
+            \Log::info('Nilai Akademik saved', ['result' => $result]);
 
             return Helper::responseData($result);
         } catch (\Throwable $th) {
+
+            \Log::error('Error occurred', ['error' => $th->getMessage()]);
             return Helper::responseFreeCustom(EC::HTTP_INTERNAL_SERVER_ERROR, 'Internal Server Error');
             throw $th;
         }
