@@ -25,8 +25,20 @@ class BobotAkademikController extends Controller
      * @OA\Get(
      *   tags={"Bobot Akademik"},
      *   path="/bobot-akademik/index",
-     *   @OA\Response(response=200, description="OK"),
-     *   @OA\Response(response=404, description="Not Found"),
+     *   summary="Get list of Bobot Akademik",
+     *   @OA\Response(
+     *      response=200, 
+     *      description="Successful operation",
+     *      @OA\JsonContent(
+     *          type="array",
+     *             @OA\Items(ref="#/components/schemas/BobotAkademik")
+     *      )
+     *   ),
+     *   @OA\Response(response=404, description="Not Found",
+     *      @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Bobot Akademik Tidak Ditemukan!"),
+     *         )),
      *   security={{ "apiAuth": {} }}
      * )
      */
@@ -61,25 +73,58 @@ class BobotAkademikController extends Controller
      *         example=""
      *       ),
      *       @OA\Property(
-     *         property="name",
-     *         title="name",
-     *         description="Name of bobot akademik",
+     *         property="nama",
+     *         title="nama",
+     *         description="nama of bobot akademik",
      *         type="string",
-     *         example="Aspek A"
+     *         example="Bobot Akademik"
      *       ),
      *       @OA\Property(
-     *         property="bobot_persen",
-     *         title="bobot_persen",
+     *         property="persen_bobot",
+     *         title="persen_bobot",
      *         description="Percentage weight of bobot akademik",
      *         type="number",
      *         example=20.5
      *       )
      *     ),
      *   ),
-     *   @OA\Response(response=200, description="OK"),
-     *   @OA\Response(response=400, description="Bad Request"),
-     *   @OA\Response(response=403, description="Forbidden"),
-     *   @OA\Response(response=404, description="Not Found"),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="meta", type="object",
+     *                 @OA\Property(property="code", type="integer", example=200),
+     *                 @OA\Property(property="message", type="string", example="OK")
+     *             ),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/BobotAkademik")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Bad Request")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Forbidden")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Bobot Akademik Tidak Ditemukan!")
+     *         )
+     *     ),
      *   security={{ "apiAuth": {} }}
      * )
      */
@@ -90,8 +135,8 @@ class BobotAkademikController extends Controller
             \Log::info('Request received', $request->all());
 
             $required_params = [];
-            if (!$request->name) $required_params[] = 'name';
-            if (!$request->bobot_persen) $required_params[] = 'bobot_persen';
+            if (!$request->nama) $required_params[] = 'nama';
+            if (!$request->persen_bobot) $required_params[] = 'persen_bobot';
 
             if (count($required_params) > 0) {
                 $message = "Parameters must be provided: " . implode(", ", $required_params);
@@ -132,10 +177,55 @@ class BobotAkademikController extends Controller
      *       type="string"
      *     ),
      *   ),
-     *   @OA\Response(response=200, description="OK"),
-     *   @OA\Response(response=400, description="Bad Request"),
-     *   @OA\Response(response=403, description="Forbidden"),
-     *   @OA\Response(response=404, description="Not Found"),
+    *   @OA\Response(
+    *       response=200,
+    *       description="OK",
+    *       @OA\JsonContent(
+    *           @OA\Property(
+    *               property="meta",
+    *               type="object",
+    *               @OA\Property(
+    *                   property="code",
+    *                   type="integer",
+    *                   example=200
+    *               ),
+    *               @OA\Property(
+    *                   property="message",
+    *                   type="string",
+    *                   example="OK"
+    *               )
+    *           ),
+    *           @OA\Property(
+    *               property="data",
+    *               type="integer",
+    *               example=1
+    *           )
+    *       )
+    *   ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Bad Request")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Forbidden")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Bobot Akademik Tidak Ditemukan!")
+     *         )
+     *     ),
      *   security={{ "apiAuth": {} }}
      * )
      */

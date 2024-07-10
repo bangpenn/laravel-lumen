@@ -13,10 +13,41 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
+/**
+ *     @OA\Schema(
+ *         schema="JenisAspek",
+ *         type="object",
+ *         properties={
+ *             @OA\Property(
+ *                 property="id",
+ *                 type="integer",
+ *                 format="int64",
+ *                 example="1"
+ *             ),
+ *             @OA\Property(
+ *                 property="key",
+ *                 type="string",
+ *                 description="UUID of the aspek akademik",
+ *                 example="78993ca2-3406-424b-8aff-aa7a66f9c625"
+ *             ),
+ *             @OA\Property(
+ *                 property="name",
+ *                 type="string",
+ *                 description="Name of the aspek akademik",
+ *                 example="Aspek Akademik"
+ *             )
+ *         }
+ *     )
+ */
 class JenisAspek extends Model
 {
     protected $primaryKey = 'uuid';
     protected $table = 'jenis_aspek';
+    // protected $fillable = [
+    //     'uuid',
+    //     'name',
+    //     // tambahkan field lain yang bisa diisi di sini
+    // ];
     protected $guarded = [];
 
     public static function GetAllJenisAspek()
@@ -27,7 +58,7 @@ class JenisAspek extends Model
                 'jenis_aspek.uuid as key',
                 'jenis_aspek.name',
             )
-            ->leftJoin('courses', 'courses.aspect_key', '=', 'jenis_aspek.uuid')
+            // ->leftJoin('courses', 'courses.aspect_key', '=', 'jenis_aspek.uuid')
             ->where('jenis_aspek.deleted_at', null)
             ->get();
 
@@ -47,8 +78,8 @@ class JenisAspek extends Model
             $datenow = date('Y-m-d H:i:s');
             $uuid = Uuid::uuid4()->toString();
 
-            $userId = Auth::guard('api')->user()->id;
-            \Log::info('Authenticated user ID', ['user_id' => $userId]);
+            // $userId = Auth::guard('api')->user()->id;
+            // \Log::info('Authenticated user ID', ['user_id' => $userId]);
 
             if ($param->uuid == null) {
                 \Log::info('Creating new JenisAspek', ['uuid' => $uuid]);
@@ -56,7 +87,7 @@ class JenisAspek extends Model
                 JenisAspek::create([
                     'uuid'          => $uuid,
                     'name'          => $param->name,
-                    'created_by'    => $userId,
+                    // 'created_by'    => $userId,
                     'created_at'    => $datenow,
                 ]);
             } else {
@@ -64,7 +95,7 @@ class JenisAspek extends Model
 
                 JenisAspek::where('uuid', $param->uuid)->update([
                     'name'          => $param->name,
-                    'created_by'    => Auth::guard('api')->user()->id,
+                    // 'created_by'    => Auth::guard('api')->user()->id,
                     'created_at'    => $datenow,
                 ]);
             }
@@ -88,7 +119,7 @@ class JenisAspek extends Model
             // DB::beginTransaction();
 
             $data = JenisAspek::where('uuid', $id)->update([
-                'deleted_by'    => Auth::guard('api')->user()->id,
+                // 'deleted_by'    => Auth::guard('api')->user()->id,
                 'deleted_at'    => $datenow,
             ]);
 

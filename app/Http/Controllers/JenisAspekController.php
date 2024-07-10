@@ -23,8 +23,20 @@ class JenisAspekController extends Controller
      * @OA\Get(
      *   tags={"Jenis Aspek"},
      *   path="/jenis-aspek/index",
-     *   @OA\Response(response=200, description="OK"),
-     *   @OA\Response(response=404, description="Not Found"),
+     *   summary="Get list of jenis aspek",
+     *   @OA\Response(
+     *      response=200, 
+     *      description="Successful operation",
+     *      @OA\JsonContent(
+     *          type="array",
+     *             @OA\Items(ref="#/components/schemas/JenisAspek")
+     *      )
+     *   ),
+     *   @OA\Response(response=404, description="Not Found",
+     *      @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Jenis Aspek Tidak Ditemukan!"),
+     *         )),
      *   security={{ "apiAuth": {} }}
      * )
      */
@@ -33,9 +45,17 @@ class JenisAspekController extends Controller
         try {
             $jenisAspeks = JenisAspek::GetAllJenisAspek();
 
+            \Log::info('Request received for GetJenisAspek');
+            \Log::info('Response data:', $jenisAspeks->toArray());
+
             return Helper::responseData($jenisAspeks);
         } catch (\Throwable $th) {
+
+            \Log::error('Error in GetJenisAspek', ['error' => $th->getMessage()]);
+
             return Helper::responseFreeCustom(EC::HTTP_INTERNAL_SERVER_ERROR, 'Internal Server Error');
+            throw $th;
+
         }
     }
 
@@ -63,10 +83,43 @@ class JenisAspekController extends Controller
      *       )
      *     ),
      *   ),
-     *   @OA\Response(response=200, description="OK"),
-     *   @OA\Response(response=400, description="Bad Request"),
-     *   @OA\Response(response=403, description="Forbidden"),
-     *   @OA\Response(response=404, description="Not Found"),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="meta", type="object",
+     *                 @OA\Property(property="code", type="integer", example=200),
+     *                 @OA\Property(property="message", type="string", example="OK")
+     *             ),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/JenisAspek")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Bad Request")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Forbidden")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Jenis Aspek Tidak Ditemukan!")
+     *         )
+     *     ),
      *   security={{ "apiAuth": {} }}
      * )
      */
@@ -118,11 +171,44 @@ class JenisAspekController extends Controller
      *       type="string"
      *     ),
      *   ),
-     *   @OA\Response(response=200, description="OK"),
-     *   @OA\Response(response=400, description="Bad Request"),
-     *   @OA\Response(response=403, description="Forbidden"),
-     *   @OA\Response(response=404, description="Not Found"),
-     *   security={{ "apiAuth": {} }}
+    *   @OA\Response(
+    *       response=200,
+    *       description="OK",
+    *       @OA\JsonContent(
+    *           @OA\Property(
+    *               property="meta",
+    *               type="object",
+    *               @OA\Property(
+    *                   property="code",
+    *                   type="integer",
+    *                   example=200
+    *               ),
+    *               @OA\Property(
+    *                   property="message",
+    *                   type="string",
+    *                   example="OK"
+    *               )
+    *           ),
+    *           @OA\Property(
+    *               property="data",
+    *               type="integer",
+    *               example=1
+    *           )
+    *       )
+    *   ),
+    *   @OA\Response(response=400, description="Bad Request", @OA\JsonContent(
+    *       @OA\Property(property="success", type="boolean", example=false),
+    *       @OA\Property(property="message", type="string", example="Invalid ID supplied")
+    *   )),
+    *   @OA\Response(response=403, description="Forbidden", @OA\JsonContent(
+    *       @OA\Property(property="success", type="boolean", example=false),
+    *       @OA\Property(property="message", type="string", example="Not authorized to delete this resource")
+    *   )),
+    *   @OA\Response(response=404, description="Not Found", @OA\JsonContent(
+    *       @OA\Property(property="success", type="boolean", example=false),
+    *       @OA\Property(property="message", type="string", example="Jenis Aspek Tidak Ditemukan!")
+    *   )),
+    *   security={{ "apiAuth": {} }}
      * )
      */
     public function DestroyJenisAspek($id)
@@ -132,7 +218,9 @@ class JenisAspekController extends Controller
 
             return Helper::responseData($result);
         } catch (\Throwable $th) {
+
             return Helper::responseFreeCustom(EC::HTTP_INTERNAL_SERVER_ERROR, 'Internal Server Error');
+            throw $th;
         }
     }
 }

@@ -31,11 +31,26 @@ class NilaiAkademikController extends Controller
      */
 
      /**
+     * Get all Nilai Akademik data.
+     * 
      * @OA\Get(
      *   tags={"Nilai Akademik"},
      *   path="/nilai-akademik/index",
-     *   @OA\Response(response=200, description="OK"),
-     *   @OA\Response(response=404, description="Not Found"),
+     *   summary="Get list of Nilai Akademik",
+
+     *   @OA\Response(
+     *      response=200, 
+     *      description="Successful operation",
+     *      @OA\JsonContent(
+     *          type="array",
+     *             @OA\Items(ref="#/components/schemas/NilaiAkademik")
+     *      )
+     *   ),
+     *   @OA\Response(response=404, description="Not Found",
+     *      @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Nilai Akademik Tidak Ditemukan!"),
+     *         )),
      *   security={{ "apiAuth": {} }}
      * )
      */
@@ -55,6 +70,8 @@ class NilaiAkademikController extends Controller
 
 
     /**
+     * Create or update Nilai Akademik.
+     * 
      * @OA\Post(
      *   tags={"Nilai Akademik"},
      *   path="/nilai-akademik/createorupdate",
@@ -70,18 +87,66 @@ class NilaiAkademikController extends Controller
      *         example=""
      *       ),
      *       @OA\Property(
-     *         property="name",
-     *         title="name",
-     *         description="Name of nilai akademik",
+     *         property="semester",
+     *         title="Semester",
+     *         description="Semester of nilai akademik",
      *         type="string",
-     *         example="Aspek A"
-     *       )
+     *         example="1"
+     *       ),
+     *       @OA\Property(
+     *         property="nilai_bobot",
+     *         title="Nilai Bobot",
+     *         description="Nilai Bobot of nilai akademik",
+     *         type="number",
+     *         format="float",
+     *         example="90"
+     *       ),
+     *       @OA\Property(
+     *         property="key_bobot",
+     *         title="Key Bobot",
+     *         description="UUID dari tabel bobot_akademik yang terhubung dengan tabel nilai_akademik",
+     *         type="string",
+     *         example="313ce0eb-902d-4dd9-8bd9-1bb9effd974e"
+     *       ),
      *     ),
      *   ),
-     *   @OA\Response(response=200, description="OK"),
-     *   @OA\Response(response=400, description="Bad Request"),
-     *   @OA\Response(response=403, description="Forbidden"),
-     *   @OA\Response(response=404, description="Not Found"),
+     *  @OA\Response(
+     *         response=200,
+     *         description="Successful response",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="meta", type="object",
+     *                 @OA\Property(property="code", type="integer", example=200),
+     *                 @OA\Property(property="message", type="string", example="OK")
+     *             ),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/NilaiAkademik")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Bad Request")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Forbidden")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Nilai Akademik Tidak Ditemukan!")
+     *         )
+     *     ),
      *   security={{ "apiAuth": {} }}
      * )
      */
@@ -131,10 +196,55 @@ class NilaiAkademikController extends Controller
      *       type="string"
      *     ),
      *   ),
-     *   @OA\Response(response=200, description="OK"),
-     *   @OA\Response(response=400, description="Bad Request"),
-     *   @OA\Response(response=403, description="Forbidden"),
-     *   @OA\Response(response=404, description="Not Found"),
+     *   @OA\Response(
+    *       response=200,
+    *       description="OK",
+    *       @OA\JsonContent(
+    *           @OA\Property(
+    *               property="meta",
+    *               type="object",
+    *               @OA\Property(
+    *                   property="code",
+    *                   type="integer",
+    *                   example=200
+    *               ),
+    *               @OA\Property(
+    *                   property="message",
+    *                   type="string",
+    *                   example="OK"
+    *               )
+    *           ),
+    *           @OA\Property(
+    *               property="data",
+    *               type="integer",
+    *               example=1
+    *           )
+    *       )
+    *   ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Bad Request")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Forbidden")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Nilai Akademik Tidak Ditemukan!")
+     *         )
+     *     ),
      *   security={{ "apiAuth": {} }}
      * )
      */

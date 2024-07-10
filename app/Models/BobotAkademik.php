@@ -14,13 +14,37 @@ use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @OA\Schema(
- *     title="BobotAkademik",
- *     description="Bobot Akademik model",
- *     @OA\Xml(
- *         name="BobotAkademik"
+ *     @OA\Schema(
+ *         schema="BobotAkademik",
+ *         type="object",
+ *         properties={
+ *             @OA\Property(
+ *                 property="id",
+ *                 type="integer",
+ *                 format="int64",
+ *                 example="1"
+ *             ),
+ *             @OA\Property(
+ *                 property="key",
+ *                 type="string",
+ *                 description="UUID of the bobot akademik",
+ *                 example="78993ca2-3406-424b-8aff-aa7a66f9c625"
+ *             ),
+ *             @OA\Property(
+ *                 property="name",
+ *                 type="string",
+ *                 description="Name of the bobot akademik",
+ *                 example="Bobot Akademik"
+ *             ),
+ *             @OA\Property(
+ *                 property="persen_bobot",
+ *                 type="number",
+ *                 format="float",
+ *                 description="persen bobot of the bobot akademik",
+ *                 example="5"
+ *             )
+ *         }
  *     )
- * )
  */
 class BobotAkademik extends Model
 {
@@ -67,16 +91,16 @@ class BobotAkademik extends Model
             if ($param->uuid == null) {
                 BobotAkademik::create([
                     'uuid'          => $uuid,
-                    'name'          => $param->name,
-                    'bobot_persen'  => $param->bobot_persen,
-                    'created_by'    => Auth::guard('api')->user()->id,
+                    'nama'          => $param->nama,
+                    'persen_bobot'  => $param->persen_bobot,
+                    // 'created_by'    => Auth::guard('api')->user()->id,
                     'created_at'    => $datenow,
                 ]);
             } else {
                 BobotAkademik::where('uuid', $param->uuid)->update([
                     'name'          => $param->name,
-                    'bobot_persen'  => $param->bobot_persen,
-                    'created_by'    => Auth::guard('api')->user()->id,
+                    'persen_bobot'  => $param->persen_bobot,
+                    // 'created_by'    => Auth::guard('api')->user()->id,
                     'created_at'    => $datenow,
                 ]);
             }
@@ -101,7 +125,7 @@ class BobotAkademik extends Model
             $datenow = date('Y-m-d H:i:s');
 
             $data = BobotAkademik::where('uuid', $id)->update([
-                'deleted_by'    => Auth::guard('api')->user()->id,
+                // 'deleted_by'    => Auth::guard('api')->user()->id,
                 'deleted_at'    => $datenow,
             ]);
 

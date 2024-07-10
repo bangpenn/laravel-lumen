@@ -15,6 +15,52 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * @OA\Schema(
+ *     schema="NilaiAkademik",
+ *     type="object",
+ *     properties={
+ *         @OA\Property(
+ *             property="key",
+ *             type="string",
+ *             description="UUID of the nilai akademik",
+ *             example="7ec2e7c4-901d-4481-8a0a-cff3c9794c29"
+ *         ),
+ *         @OA\Property(
+ *             property="student_id",
+ *             type="string",
+ *             description="UUID of the student",
+ *             example="7ec2e7c4-901d-4481-8a0a-cff3c9794c29"
+ *         ),
+ *         @OA\Property(
+ *             property="course_id",
+ *             type="string",
+ *             description="UUID of the course",
+ *             example="7ec2e7c4-901d-4481-8a0a-cff3c9794c29"
+ *         ),
+ *         @OA\Property(
+ *             property="semester",
+ *             type="string",
+ *             description="Semester of the nilai akademik",
+ *             example="1"
+ *         ),
+ *         @OA\Property(
+ *             property="bobot_id",
+ *             type="string",
+ *             description="UUID of the bobot akademik",
+ *             example="313ce0eb-902d-4dd9-8bd9-1bb9effd974e"
+ *         ),
+ *         @OA\Property(
+ *             property="nilai_bobot",
+ *             type="number",
+ *             format="float",
+ *             description="Nilai bobot of the nilai akademik",
+ *             example="98"
+ *         )
+ *     }
+ * )
+ */
+
 class NilaiAkademik extends Model
 {
     protected $primaryKey = 'uuid';
@@ -80,7 +126,7 @@ class NilaiAkademik extends Model
                     'semester'          => $param->semester,
                     'key_bobot'         => $key_bobot,
                     'nilai_bobot'       => $param->nilai_bobot,
-                    'created_by'        => Auth::guard('api')->user()->id,
+                    // 'created_by'        => Auth::guard('api')->user()->id,
                     'created_at'        => $datenow,
                 ]);
             } else {
@@ -90,7 +136,7 @@ class NilaiAkademik extends Model
                     'semester'          => $param->semester,
                     'key_bobot'         => $uuid,
                     'nilai_bobot'       => $param->nilai_bobot,
-                    'created_by'        => Auth::guard('api')->user()->id,
+                    // 'created_by'        => Auth::guard('api')->user()->id,
                     'created_at'        => $datenow,
                 ]);
             }
@@ -109,7 +155,7 @@ class NilaiAkademik extends Model
             $datenow = date('Y-m-d H:i:s');
 
             $data = NilaiAkademik::where('uuid', $id)->update([
-                'deleted_by'    => Auth::guard('api')->user()->id,
+                // 'deleted_by'    => Auth::guard('api')->user()->id,
                 'deleted_at'    => $datenow,
             ]);
             // DB::commit();
