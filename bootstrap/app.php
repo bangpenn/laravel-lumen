@@ -39,9 +39,20 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-$app->withFacades();
+$app->withFacades(true, [
+    'Illuminate\Support\Facades\Mail' => 'Mail',
+    ]);
 
 $app->withEloquent();
+
+$app->configure('auth');
+
+$app->configure('mail');
+$app->alias('mail.manager', Illuminate\Mail\MailManager::class);
+$app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
+$app->alias('mailer', Illuminate\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +64,8 @@ $app->withEloquent();
 | your own bindings here if you like or you can make another file.
 |
 */
+
+
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
@@ -92,20 +105,29 @@ $app->middleware([
     App\Http\Middleware\CorsMiddleware::class
 ]);
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    App\Http\Middleware\ExampleMiddleware::class
+]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+// Pendaftaran middleware route
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+    'swagger' => \SwaggerLume\Http\Middleware\SwaggerLumeMiddleware::class,
+]);
+
+
+// Register two service providers, Laravel Passport and Lumen adapter
+$app->register(Laravel\Passport\PassportServiceProvider::class);
+$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
+
+
 $app->configure('swagger-lume');
 
 $app->register(\SwaggerLume\ServiceProvider::class);
 
-$app->routeMiddleware([
-    'swagger' => \SwaggerLume\Http\Middleware\SwaggerLumeMiddleware::class,
-]);
+// $app->routeMiddleware([
+//     'swagger' => \SwaggerLume\Http\Middleware\SwaggerLumeMiddleware::class,
+// ]);
 
 
 
@@ -122,9 +144,13 @@ $app->routeMiddleware([
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
+
+$app->register(Illuminate\Mail\MailServiceProvider::class);
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -136,6 +162,11 @@ $app->routeMiddleware([
 | can respond to, as well as the controllers that may handle them.
 |
 */
+$app->router->get('/example', [
+    'middleware' => 'auth',
+    'users' => 'ExampleController@index',
+]);
+
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',

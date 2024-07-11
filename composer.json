@@ -8,6 +8,8 @@
         "php": "^8.1",
         "darkaonline/l5-swagger": "^8.6",
         "darkaonline/swagger-lume": "^11.0",
+        "dusterio/lumen-passport": "^0.3.8",
+        "illuminate/mail": "*",
         "laravel/lumen-framework": "^10.0"
     },
     "require-dev": {

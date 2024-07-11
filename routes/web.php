@@ -12,11 +12,12 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
+// Users
+$router->post('/registrasi', 'WebController@save_registrasi');
+$router->post('verifikasi','WebController@verifikasi_email');
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
 
+// CRUD Posts
 $router->get('/posts', 'PostsController@index');
 $router->post('/posts', 'PostsController@store');
 $router->get('/posts/{id}', 'PostsController@show');
